@@ -1,0 +1,43 @@
+script(src="https://code.jquery.com/jquery-3.3.1.slim.min.js")
+script(src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js")
+script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js")
+script(src="/socket.io/socket.io.js")
+script.
+    var socket = io(); 
+    socket.on('chat message', function(msg) {
+        alert(msg);
+    });
+
+    //const socket = io.connect("http://localhost:1453/rooms");
+    $(() => {
+        let socketId = "";
+        socket.on("loginClient", data => {
+            let html = "";
+            $.each(data, (i, n) => html += `<li style="cursor: pointer;" class="client">${n}</li>`);
+            $("#allClients").html(html);
+        });
+
+        socket.on("sendSocketId", data => $("#thisSocketId").html(data));
+        socket.on("refres", data => window.location.reload(false))
+
+        $("body").on("click", ".client", () => {
+            $("#txtSocketId").val(`Target Client : ${$(event.target).html()}`);
+            socketId = $(event.target).html();
+        });
+
+        $("#btnSendMessage").click(() => {
+            socket.emit("sendMessage", {
+                socketId,
+                message: $("#txtMessage").val()
+            });
+        });
+
+        socket.on("messages", data => {
+            if (!data.self)
+                $("#messages").append(`<li><strong style="color: green;">${data.socketId}</strong> : ${data.message}</li>`);
+            else
+                $("#messages").append(`<li><strong>${data.socketId}</strong> : ${data.message}</li>`);
+            $("#txtMessage").val("");
+        });
+    });
+block script
