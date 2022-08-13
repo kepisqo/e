@@ -25,4 +25,12 @@ router.get('/orders', shopController.getOrders);
 
 router.post('/create-order', shopController.postOrder);
 
+router.get('/not', shopController.getNot);
+
+router.post('/not', shopController.postNot);
+
+router.get('/enerji', shopController.getEnerji);
+
+router.post('/enerji', shopController.postEnerji);
+
 module.exports = router;

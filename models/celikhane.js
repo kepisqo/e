@@ -14,7 +14,7 @@ const Celikhane = sequelize.define('celikhane', {
         allowNull: false
     },
     kbara: {
-        type: Sequelize.STRING,
+        type: Sequelize.DOUBLE,
         allowNull: false
     },
     tarih: {

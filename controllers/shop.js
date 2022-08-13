@@ -4,7 +4,9 @@ const Celikhane = require('../models/celikhane');
 const Haddehane = require('../models/haddehane');
 const Aba2 = require('../models/aba2');
 const Client = require('../models/client');
+const Endex = require('../models/endex');
 const sgMail = require('@sendgrid/mail');
+const Not = require('../models/note');
 
 sgMail.setApiKey('');
 
@@ -96,6 +98,7 @@ exports.postIndex = (req, res, next) => {
     console.log(hadde);
     console.log(vpsa);
     console.log(_aba2);
+    //console.log(_endex);
 
     if(kbara){
         Celikhane.findOne(
@@ -203,6 +206,137 @@ exports.postIndex = (req, res, next) => {
                 console.log(err);
             });
     }
+}
+
+exports.getEnerji = (req, res, next) => {
+    var today = new Date();
+    Endex.findOne(
+        {
+            where: {tarih : today.toISOString().substring(0, 10)}, //tarih kontrolü yapılacak
+        })
+        .then(endex => {
+            res.render('shop/enerji', {
+                title: 'Enerji',
+                endex: endex,
+                path: '/enerji'
+            });
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+}
+
+exports.postEnerji = (req, res, next) => {
+
+    _endex = req.body.endex;
+    console.log(_endex)
+    var today = new Date();
+
+    if(_endex){
+        Endex.findOne(
+            {
+                where: {tarih : today.toISOString().substring(0, 10)}, //tarih kontrolü yapılacak
+            })
+            .then(endex => {
+                if (endex == null){
+                    res.redirect('/');
+                    Endex.create({
+                        //hadde : _aba2,
+                        saat00 : _endex[0],
+                        saat01 : _endex[1],
+                        saat02 : _endex[2],
+                        saat03 : _endex[3],
+                        saat04 : _endex[4],
+                        saat05 : _endex[5],
+                        saat06 : _endex[6],
+                        saat07 : _endex[7],
+                        saat08 : _endex[8],
+                        saat09 : _endex[9],
+                        saat10 : _endex[10],
+                        saat11 : _endex[11],
+                        saat12 : _endex[12],
+                        saat13 : _endex[13],
+                        saat14 : _endex[14],
+                        saat15 : _endex[15],
+                        saat16 : _endex[16],
+                        saat17 : _endex[17],
+                        saat18 : _endex[18],
+                        saat19 : _endex[19],
+                        saat20 : _endex[20],
+                        saat21 : _endex[21],
+                        saat22 : _endex[22],
+                        saat23 : _endex[23],
+                        tarih : today.toISOString().substring(0, 10)
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+                }else{
+                    res.redirect('/a');
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+
+}
+
+exports.getNot = (req, res, next) => {
+   
+    Not.findAll()
+        .then(note => {
+            res.render('shop/not', {
+                title: 'Not',
+                note: note,
+                path: '/not'
+            });
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+}
+
+exports.postNot = (req, res, next) => {
+
+    const productId = req.body.productId;
+    let quantity = 1;
+    let userCart;
+
+    req.user
+        .getCart()
+        .then(cart => {
+            userCart = cart;
+            return cart.getProducts({ where: { id: productId } });
+
+        })
+        .then(products => {
+            let product;
+
+            if (products.length > 0) {
+                product = products[0];
+            }
+
+            if (product) {
+                quantity += product.cartItem.quantity;
+                return product;
+            }
+            return Product.findByPk(productId);
+
+        })
+        .then(product => {
+            userCart.addProduct(product, {
+                through: {
+                    quantity: quantity
+                }
+            })
+        })
+        .then(() => {
+            res.redirect('/cart');
+        })
+        .catch(err => {
+            console.log(err);
+        });
 }
 
 exports.getMail = (req, res, next) => {
@@ -559,5 +693,6 @@ exports.postOrder = (req, res, next) => {
             console.log(err);
         });
 }
+
 
 

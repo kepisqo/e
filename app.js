@@ -41,7 +41,7 @@ io.on('connection', (socket) => {
               .catch(err => {
                   console.log(err);
               });
-            socket.emit("refres");
+            //socket.emit("refres");
           }else{
             SocketClient.findByPk(client.id)
               .then(client => {
@@ -50,7 +50,7 @@ io.on('connection', (socket) => {
                   return client.save();
               })
               .catch(err => console.log(err));
-            socket.emit("refres");
+            //socket.emit("refres");
           }
 
       })
@@ -122,14 +122,16 @@ const Celikhane = require('./models/celikhane');
 const Haddehane = require('./models/haddehane');
 const Aba2 = require('./models/aba2');
 const SocketClient = require('./models/client');
+const Endex = require('./models/endex');
+const Note = require('./models/note');
 const { Client } = require('@sendgrid/client');
 
 var store = {
 	host: 'localhost',
 	port: 3306,
 	user: 'root',
-	password: '123ssk06',
-	database: 'node-app',
+	password: '123*Ssk*06',
+	database: 'node',
 	schema: {
 		tableName: 'custom_sessions_table_name',
 		columnNames: {
@@ -204,6 +206,6 @@ sequelize
         console.log(err);
     });
 
-server.listen(3000, () => {
-    console.log('listening on port 3000');
+server.listen(80, () => {
+    console.log('listening on port 80');
 });
