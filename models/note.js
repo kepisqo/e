@@ -2,20 +2,28 @@ const Sequelize = require('sequelize');
 
 const sequelize = require('../utility/database');
 
-const Celikhane = sequelize.define('celikhane', {
+const Note = sequelize.define('note', {
     id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
         allowNull: false,
         primaryKey: true
     },
-    tbara: {
-        type: Sequelize.DOUBLE,
+    note: {
+        type: Sequelize.STRING,
         allowNull: false
     },
-    kbara: {
-        type: Sequelize.DOUBLE,
+    other: {
+        type: Sequelize.STRING,
         allowNull: false
+    },
+    other2: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    status: {
+        type: Sequelize.BOOLEAN,
+        default: false
     },
     tarih: {
         type: Sequelize.STRING,
@@ -23,4 +31,4 @@ const Celikhane = sequelize.define('celikhane', {
     }
 });
 
-module.exports = Celikhane;
+module.exports = Note;
