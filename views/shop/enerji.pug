@@ -1,0 +1,36 @@
+extends ../layouts/main-layout.pug
+
+block content 
+    if (action !== 'undefined' && action === 'delete')
+        div.alert.alert-danger The product has been deleted.
+
+    if (action !== 'undefined' && action === 'edit')
+        div.alert.alert-success The product has been updated.
+    
+    h5 #{endex.tarih}    
+    ul
+        //- en = 2
+        li #{endex.saat00}
+        li #{endex.saat01}
+        li #{endex.saat02}
+        li #{endex.saat03}
+        li #{endex.saat04}
+        li #{endex.saat05}
+        li #{endex.saat06}
+        li #{endex.saat07}
+        li #{endex.saat08}
+        li #{endex.saat09}
+        li #{endex.saat10}
+        li #{endex.saat11}
+        li #{endex.saat12}
+        li #{endex.saat13}
+        li #{endex.saat14}
+        li #{endex.saat15}
+        li #{endex.saat16}
+        li #{endex.saat17}
+        li #{endex.saat18}
+        li #{endex.saat19}
+        li #{endex.saat20}
+        li #{endex.saat21}
+        li #{endex.saat22}
+        li #{endex.saat23}
