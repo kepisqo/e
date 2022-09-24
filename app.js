@@ -1,9 +1,19 @@
 const express = require('express');
+var cors = require("cors")
+const bodyParser = require("body-parser");
 const app = express();
+app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 const http = require('http');
 const server = http.createServer(app);
 const { Server } = require("socket.io");
-const io = new Server(server);
+const io = new Server(server, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST", "OPTIONS"]
+  }
+});
 
 const allClients = [];
 
@@ -95,7 +105,7 @@ io.on('connection', (socket) => {
 
 });
 
-const bodyParser = require('body-parser');
+
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
@@ -144,7 +154,7 @@ var store = {
 
 var mysqlDbStore = new MySQLStore(store);
 
-app.use(bodyParser.urlencoded({ extended: false }));
+//app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(session({
     secret: 'keyboard cat',

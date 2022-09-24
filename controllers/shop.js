@@ -85,6 +85,249 @@ exports.getIndex = (req, res, next) => {
         });
 }
 
+exports.getRapor = (req, res, next) => {
+    var today = new Date();
+    var _celikhane;
+    var _haddehane;
+    var _aba2;
+    var _aba2Dun;
+    var yesterday = new Date();
+    var _today =  today.toISOString().substring(0, 10);
+    var gun = today.getDate();
+    yesterday.setDate(yesterday.getDate() - 1);
+    dun = yesterday.getDate();
+    var data = { 
+        tarih : today.toISOString().substring(0, 10), 
+        kbara : null, 
+        tbara : null, 
+        hadde : null, 
+        vpsa : null, 
+        aba2 : null, 
+        aba2Dun : null, 
+        ayT : null, 
+        ayY : null, 
+        dun : null, 
+        gun : null 
+    };
+
+    var aylar = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
+    ayT = aylar[today.getMonth()]
+    ayY = aylar[yesterday.getMonth()]
+
+    Aba2.findOne(
+        {
+            where: {tarih : today.toISOString().substring(0, 10)}, //tarih kontrolü yapılacak
+        })
+        .then(aba2 => {
+            _aba2 = aba2;
+            if(aba2 !== null){
+                Aba2.findByPk(aba2.id-1)
+                    .then(aba2 => {
+                        _aba2Dun = aba2;
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+            }
+            
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+
+    Celikhane.findOne(
+        {
+            where: {tarih : today.toISOString().substring(0, 10)}, //tarih kontrolü yapılacak
+        })
+        .then(celikhane => {
+            _celikhane = celikhane;
+
+            Haddehane.findOne(
+                {
+                    where: {tarih : today.toISOString().substring(0, 10)}, //tarih kontrolü yapılacak
+                })
+                .then(haddehane => {
+                    _haddehane = haddehane;
+                    console.log(_celikhane);
+                    console.log(_haddehane);
+                    if(celikhane){
+                        data.kbara = celikhane.kbara;
+                        data.tbara = celikhane.tbara;
+                    }
+                    if(haddehane){
+                        data.hadde = haddehane.hadde;
+                        data.vpsa = haddehane.vpsa;
+                    }
+                    if(_aba2){
+                        data.aba2 = _aba2;
+                        data.aba2Dun = _aba2Dun;
+                    }
+                    data.ayT = ayT;
+                    data.ayY = ayY;
+                    data.gun = gun;
+                    data.dun = dun;
+
+                    // data.push(celikhane)
+                    // data.push(haddehane)
+                    // data.push(_aba2)
+                    // data.push(_aba2Dun)
+                    // data.push(ayT)
+                    // data.push(ayY)
+                    // data.push(dun)
+                    // data.push(gun)
+
+                    res.status(200).send(data);
+                    // res.render('shop/index', {
+                    //     title: 'Aba Çelik Rapor',
+                    //     celikhane: celikhane,
+                    //     haddehane: haddehane,
+                    //     aba2: _aba2,
+                    //     aba2Dun: _aba2Dun,
+                    //     ayT: ayT,
+                    //     ayY: ayY,
+                    //     dun: dun,
+                    //     gun: gun,
+                    //     tarih: today.toISOString().substring(0, 10),
+                    //     path: '/',
+                    //     isAuthenticated: req.session.isAuthenticated,
+                    //     isAdmin: req.session.isAdmin
+                    // });
+                })
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+    
+}
+
+exports.postRapor = (req, res, next) => {
+
+    console.log("istek geldi")
+    console.log(req)
+    // console.log(res)
+    kbara = req.body.kbara;
+    tbara = req.body.tbara;
+    hadde = req.body.hadde;
+    vpsa = req.body.vpsa;
+    _aba2 = req.body.aba2;
+    var today = new Date();
+    
+    console.log(kbara);
+    console.log(tbara);
+    console.log(hadde);
+    console.log(vpsa);
+    console.log(_aba2);
+    //console.log(_endex);
+
+    if(kbara){
+        Celikhane.findOne(
+            {
+                where: {tarih : today.toISOString().substring(0, 10)}, //tarih kontrolü yapılacak
+            })
+            .then(celikhane => {
+                if (celikhane == null){
+                    Celikhane.create({
+                        tbara : tbara,
+                        kbara : kbara,
+                        tarih : today.toISOString().substring(0, 10)
+                    })
+                    .then(result => {
+                        res.status(200).send("data");
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+                }else{
+                    Celikhane.findByPk(celikhane.id)
+                        .then(celikhane => {
+                            celikhane.tbara = tbara;
+                            celikhane.kbara = kbara;
+                            return celikhane.save();
+                        })
+                        .then(result => {
+                            console.log('updated');
+                            res.status(200).send("data");
+                        })
+                        .catch(err => console.log(err));
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+        
+    }
+    else if(hadde){
+        Haddehane.findOne(
+            {
+                where: {tarih : today.toISOString().substring(0, 10)}, //tarih kontrolü yapılacak
+            })
+            .then(haddehane => {
+                if (haddehane == null){
+                    Haddehane.create({
+                        hadde : hadde,
+                        vpsa : vpsa,
+                        tarih : today.toISOString().substring(0, 10)
+                    })
+                    .then(result => {
+                        res.status(200).send("data");
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+                }else{
+                    Haddehane.findByPk(haddehane.id)
+                        .then(haddehane => {
+                            haddehane.hadde = hadde;
+                            haddehane.vpsa = vpsa;
+                            return haddehane.save();
+                        })
+                        .then(result => {
+                            console.log('updated');
+                            res.status(200).send("data");
+                        })
+                        .catch(err => console.log(err));
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }else if(_aba2){
+        Aba2.findOne(
+            {
+                where: {tarih : today.toISOString().substring(0, 10)}, //tarih kontrolü yapılacak
+            })
+            .then(aba2 => {
+                if (aba2 == null){
+                    Aba2.create({
+                        hadde : _aba2,
+                        tarih : today.toISOString().substring(0, 10)
+                    })
+                    .then(result => {
+
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+                }else{
+                    Aba2.findByPk(aba2.id)
+                        .then(aba2 => {
+                            aba2.hadde = _aba2;
+                            return aba2.save();
+                        })
+                        .then(result => {
+                            console.log('updated');
+                        })
+                        .catch(err => console.log(err));
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }else{
+        res.status(200).send("req");
+    }
+}
+
 exports.postIndex = (req, res, next) => {
     kbara = req.body.kbara;
     tbara = req.body.tbara;

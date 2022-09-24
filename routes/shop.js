@@ -1,11 +1,16 @@
 const express = require('express');
 const router = express.Router();
+var cors = require("cors")
 
 const shopController = require('../controllers/shop');
 
 router.get('/', shopController.getIndex);
 
 router.post('/', shopController.postIndex);
+
+router.get('/rapor', shopController.getRapor);
+
+router.post('/rapor', shopController.postRapor);
 
 router.get('/mail', shopController.getMail);
 
