@@ -8,3 +8,120 @@
     color: #444;
     border-top: 1px solid #d2d6de;
 }
+
+a{
+animation : rotate-all ease-in-out 2s forwards;
+
+}
+input.hd:hover{
+    animation : rotate-all ease-in-out 2s forwards;
+}
+
+@keyframes rotate-all {
+from{
+    transform: rotateY(0);
+}
+to{
+    transform: rotateY(1080deg);
+}
+}
+
+body {
+    background-color: #f7f7f7;
+}
+
+
+
+.card{
+    border-radius: 5px;
+    border: 1px solid #666;
+    transition: box-shadow .5s;
+    margin-left: 15px;
+    margin-top: 15px;
+}
+
+.card:first-child{
+    margin-left: 0px;
+}
+
+.card:hover{
+    box-shadow: 0px 5px 48px #666;
+    transition: box-shadow .5s;
+}
+
+
+#gonderGelsin {
+    animation-name: slide; 
+    animation-duration: 2s; 
+}
+
+#gonderGelsin2{
+    animation-name: slide2; 
+    animation-duration: 2s; 
+}
+    
+#gonderGelsin3 {
+    animation-name: slide3; 
+    animation-duration: 2s; 
+}
+
+@keyframes slide {
+    from{
+      transform: translateX(-1000px);
+      opacity: 0;
+    }
+    to{
+      transform: translateX(0px);
+      opacity: 1;
+    }
+}
+
+@keyframes slide2 {
+    from{
+      transform: translateY(1000px);
+      opacity: 0;
+    }
+    to{
+      transform: translateY(0px);
+      opacity: 1;
+    }
+}
+
+@keyframes slide3 {
+    from{
+      transform: translateY(-1000px);
+      opacity: 0;
+    }
+    to{
+      transform: translateY(0px);
+      opacity: 1;
+    }
+}
+
+#cardziya{
+    /* position: relative; */
+    left: -1000px;
+    top: 20px;
+    position: absolute;
+    width: 5%;
+    height: 5%;
+    /* will-change: background-position; */
+    /* animation-name: bird-animation;
+    animation-duration: 2s;  */
+  }
+
+  .birdnewclass{
+    animation-name: bird-animation;
+    animation-duration: 1s; 
+  }
+
+  @keyframes bird-animation {
+    from{
+      /* transform: translateX(1000px); */
+      opacity: 1;
+    }
+    to{
+      /* transform: translateX(0px); */
+      opacity: 0;
+    }
+}

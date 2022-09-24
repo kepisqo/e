@@ -3,13 +3,25 @@ extends ../layouts/main-layout.pug
 include ../mixins/createProduct.pug
 
 block content
-    div.alert.alert-danger
-        a(href="http://3.69.175.3:3000/d/tJGlxJg4k/enerji-tuketim-analizi?orgId=1&refresh=1h") Elektrik Tüketim Verilerine Buradan Ulaşabilirsiniz.
+    //- div.alert.alert-danger
+    //-    a(href="http://3.69.175.3:3000/d/tJGlxJg4k/enerji-tuketim-analizi?orgId=1&refresh=1h") Elektrik Tüketim Verilerine Buradan Ulaşabilirsiniz.
+    div
+        div.bird-container.bird-container--one(id="ziya" onclick="bird_click(event)")
+            div.bird.bird--one
+        div.bird-container.bird-container--two(id="ziya1" onclick="bird_click1(event)")
+            div.bird.bird--two
+        div.bird-container.bird-container--three(id="ziya2" onclick="bird_click2(event)")
+            div.bird.bird--three
+        div.bird-container.bird-container--four(id="ziya3" onclick="bird_click3(event)")
+                div.bird.bird--four
+    img(id="cardziya" src="/img/pngegg.png")
     .row
         .col-md-4
             //include ../includes/menu.pug
-            h5.offset-sm-4 ÇELİKHANE
-            .card
+            .card(id="gonderGelsin")
+                .card-header
+                    h5
+                        center ÇELİKHANE
                 .card-body
                     form(action="/" method="POST")
                         .form-group.row
@@ -23,11 +35,13 @@ block content
                                 input.form-control#password(type="text" name="tbara" required="required")
                                 
                         .form-group.row
-                            .col-sm-5.offset-sm-1
+                            .col-sm-5.offset-sm-1(id="nesne")
                                 input(type="submit" value="Kaydet").btn.btn-primary 
         .col-md-4
-            h5.offset-sm-4 HADDEHANE
-            .card
+            .card.offset-sm-4(id="gonderGelsin2")
+                .card-header
+                    h5
+                        center HADDEHANE
                 .card-body
                     form(action="/" method="POST")
                         .form-group.row
@@ -44,8 +58,10 @@ block content
                             .col-sm-5.offset-sm-1
                                 input(type="submit" value="Kaydet").btn.btn-primary 
         .col-md-4
-            h5.offset-sm-4 ABA2
-            .card
+            .card(id="gonderGelsin3")
+                .card-header
+                    h5
+                        center ABA2
                 .card-body
                     form(action="/" method="POST")
                         .form-group.row
@@ -153,7 +169,7 @@ block content
                     p #{dun} #{ayY} (08:00) - #{gun} #{ayT} (08:00) arası ABA-2 tüketim #{sonuc3} kwh
                 else
                     - sonuc3 = "***"
-                    p #{dun} #{ayY} (08:00) - #{gun} #{ayT} (08:00) arası ABA-2 tüketim *** kwh
+                    p #{dun} #{ayY} (08:00) - #{gun} #{ayT} (08:00) arası ABA-2 tüketim 0 kwh
                 .br 
 
                         

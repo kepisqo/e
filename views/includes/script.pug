@@ -40,4 +40,143 @@ script.
             $("#txtMessage").val("");
         });
     });
+
+    sayac = 0;
+    var nesne=document.getElementById("nesne");
+    var nesne2=document.getElementById("cardziya");
+    var nesne3=document.getElementById("cardziyaa");
+    var nesne4=document.getElementById("cardziyaaa");
+    skor= 0;
+    sayac2 = 0;
+    //- cziya.onmouseover=function(e)
+    //- {
+    //-     cziya.style.left=500 +"px";
+    //-     cziya.style.top =500+"px";
+    //- }
+    nesne.onmouseover=function(e)
+    {
+        if (sayac == 0){
+            var xpos=parseInt(Math.random()*-200);
+            var ypos=parseInt(Math.random()*-150);
+            sayac=1;
+            sayac2++
+        }else{
+            var xpos=parseInt(Math.random()*200);
+            var ypos=parseInt(Math.random()*-100);
+            sayac=0
+            sayac2++
+        }
+        if(skor>20){
+            console.log(xpos + " : " + ypos);
+            nesne.style.left=xpos +"px";
+            nesne.style.top =ypos+"px";
+            
+        }
+        //- if(sayac2==7){
+        //-     alert("Kaydet butonuna basabilmeniz için 20 adet kuş vurmalısnız.")
+        //- }
+        
+    }
+
+    function bird_click(event){
+        skor++;
+        console.log(skor);
+        document.querySelector('#ziya').classList.add('bird-container-ziya');
+        document.getElementById('skor').innerHTML = skor;
+
+        var xpos = event.clientX;
+        var ypos = event.clientY;
+        console.log(xpos + " : " + ypos)
+        nesne2.style.left=(xpos-30) +"px";
+        nesne2.style.top =(ypos-20)+"px";
+        document.querySelector('#cardziya').classList.add('birdnewclass');
+
+        setTimeout(bird,999);
+        function bird() {
+            document.querySelector('#cardziya').classList.remove('birdnewclass');
+            nesne2.style.left=-1000 +"px";
+            nesne2.style.top =20+"px";
+        }
+
+        setTimeout(aaa,5000);
+        function aaa() {
+            document.querySelector('#ziya').classList.remove('bird-container-ziya');
+        }
+
+    }
+    function bird_click1(event){
+        skor++;
+        console.log(skor);
+        document.getElementById('skor').innerHTML = skor;
+        document.querySelector('#ziya1').classList.add('bird-container-ziya');
+
+        var xpos = event.clientX;
+        var ypos = event.clientY;
+        console.log(xpos + " : " + ypos)
+        nesne2.style.left=(xpos-30) +"px";
+        nesne2.style.top =(ypos-20)+"px";
+        document.querySelector('#cardziya').classList.add('birdnewclass');
+
+        setTimeout(bird,999);
+        function bird() {
+            document.querySelector('#cardziya').classList.remove('birdnewclass');
+            nesne2.style.left=-1000 +"px";
+            nesne2.style.top =20+"px";
+        }
+
+        setTimeout(aaa,5000);
+        function aaa() {
+        document.querySelector('#ziya1').classList.remove('bird-container-ziya');
+        }
+    }
+    function bird_click2(event){
+        skor++;
+        console.log(skor);
+        document.querySelector('#ziya2').classList.add('bird-container-ziya');
+        document.getElementById('skor').innerHTML = skor;
+
+        var xpos = event.clientX;
+        var ypos = event.clientY;
+        console.log(xpos + " : " + ypos)
+        nesne2.style.left=(xpos-30) +"px";
+        nesne2.style.top =(ypos-20)+"px";
+        document.querySelector('#cardziya').classList.add('birdnewclass');
+
+        setTimeout(bird,999);
+        function bird() {
+            document.querySelector('#cardziya').classList.remove('birdnewclass');
+            nesne2.style.left=-1000 +"px";
+            nesne2.style.top =20+"px";
+        }
+
+        setTimeout(aaa,5000);
+        function aaa() {
+        document.querySelector('#ziya2').classList.remove('bird-container-ziya');
+        }
+    }
+    function bird_click3(event){
+        skor++;
+        console.log(skor);
+        document.querySelector('#ziya3').classList.add('bird-container-ziya');
+        document.getElementById('skor').innerHTML = skor;
+
+        var xpos = event.clientX;
+        var ypos = event.clientY;
+        console.log(xpos + " : " + ypos)
+        nesne2.style.left=(xpos-30) +"px";
+        nesne2.style.top =(ypos-20)+"px";
+        document.querySelector('#cardziya').classList.add('birdnewclass');
+
+        setTimeout(bird,999);
+        function bird() {
+            document.querySelector('#cardziya').classList.remove('birdnewclass');
+            nesne2.style.left=-1000 +"px";
+            nesne2.style.top =20+"px";
+        }
+
+        setTimeout(aaa,5000);
+        function aaa() {
+        document.querySelector('#ziya3').classList.remove('bird-container-ziya');
+        }
+    }
 block script
