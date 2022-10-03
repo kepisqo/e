@@ -159,8 +159,8 @@ exports.getRapor = (req, res, next) => {
                         data.vpsa = haddehane.vpsa;
                     }
                     if(_aba2){
-                        data.aba2 = _aba2;
-                        data.aba2Dun = _aba2Dun;
+                        data.aba2 = _aba2.hadde;
+                        data.aba2Dun = _aba2Dun.hadde;
                     }
                     data.ayT = ayT;
                     data.ayY = ayY;
@@ -303,7 +303,7 @@ exports.postRapor = (req, res, next) => {
                         tarih : today.toISOString().substring(0, 10)
                     })
                     .then(result => {
-
+                        res.status(200).send("data");
                     })
                     .catch(err => {
                         console.log(err);
@@ -316,6 +316,7 @@ exports.postRapor = (req, res, next) => {
                         })
                         .then(result => {
                             console.log('updated');
+                            res.status(200).send("data");
                         })
                         .catch(err => console.log(err));
                 }
