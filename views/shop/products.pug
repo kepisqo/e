@@ -1,0 +1,66 @@
+extends ../layouts/main-layout.pug
+
+include ../mixins/createProduct.pug
+
+block content
+
+    ul#messages
+        form#form(action='')
+            input#input(autocomplete='off')
+            button Send
+    //-script(src='/socket.io/socket.io.js')
+    script.
+        //-var socket = io();
+        var messages = document.getElementById('messages');
+        var form = document.getElementById('form');
+        var input = document.getElementById('input');
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (input.value) {
+                socket.emit('chat message', input.value);
+                input.value = '';
+            }
+        });
+        socket.on('chat message', function(msg) {
+            var item = document.createElement('li');
+            item.textContent = msg;
+            messages.appendChild(item);
+            window.scrollTo(0, document.body.scrollHeight);
+        });
+
+    h3(id="thisSocketId")
+    .row
+        .col-md-6
+            ul#allClients
+        .col-md-6
+            input#txtSocketId(type='text' placeholder='Target Client' disabled='' style='width: 350px;')
+            br
+            textarea#txtMessage(name='' style='width: 350px;' placeholder='Message')
+            br
+            button#btnSendMessage Send Message
+        .col-md-12
+            ul#messages
+    .row
+        .col-md-12
+            h5.offset-sm-5.mt-5 RAPOR
+            table.table.table-bordered
+                thead
+                    tr
+                        th IP
+                        th Unique ID
+                        th Online
+                        th Updated Date
+                tbody
+                    each client in clients
+                        tr  
+                            if (client.online == false)
+                                td(style="color:red") #{client.ip}
+                                td(style="color:red") #{client.uniqueId}
+                                td(style="color:red") #{client.online}
+                                td(style="color:red") #{client.updatedAt}
+                            else
+                                td(style="color:green") #{client.ip}
+                                td(style="color:green") #{client.uniqueId}
+                                td(style="color:green") #{client.online}
+                                td(style="color:green") #{client.updatedAt}
+    

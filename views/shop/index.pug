@@ -1,0 +1,179 @@
+extends ../layouts/main-layout.pug
+
+include ../mixins/createProduct.pug
+
+block content
+    //- div.alert.alert-danger
+    //-    a(href="http://3.69.175.3:3000/d/tJGlxJg4k/enerji-tuketim-analizi?orgId=1&refresh=1h") Elektrik Tüketim Verilerine Buradan Ulaşabilirsiniz.
+    div
+        div.bird-container.bird-container--one(id="ziya" onclick="bird_click(event)")
+            div.bird.bird--one
+        div.bird-container.bird-container--two(id="ziya1" onclick="bird_click1(event)")
+            div.bird.bird--two
+        div.bird-container.bird-container--three(id="ziya2" onclick="bird_click2(event)")
+            div.bird.bird--three
+        div.bird-container.bird-container--four(id="ziya3" onclick="bird_click3(event)")
+                div.bird.bird--four
+    img(id="cardziya" src="/img/pngegg.png")
+    .row
+        .col-md-4
+            //include ../includes/menu.pug
+            .card(id="gonderGelsin")
+                .card-header
+                    h5
+                        center ÇELİKHANE
+                .card-body
+                    form(action="/" method="POST")
+                        .form-group.row
+                            label(for="kirlibara").col-sm-12.col-form-label Kirli Bara
+                            .col-sm-12.pr-0
+                                input.form-control#name(type="text" name="kbara" required="required") 
+
+                        .form-group.row
+                            label(for="temizbara").col-sm-12.col-form-label Temiz Bara
+                            .col-sm-12.pr-0
+                                input.form-control#password(type="text" name="tbara" required="required")
+                                
+                        .form-group.row
+                            .col-sm-5.offset-sm-1(id="nesne")
+                                input(type="submit" value="Kaydet").btn.btn-primary 
+        .col-md-4
+            .card.offset-sm-4(id="gonderGelsin2")
+                .card-header
+                    h5
+                        center HADDEHANE
+                .card-body
+                    form(action="/" method="POST")
+                        .form-group.row
+                            label(for="hadde").col-sm-12.col-form-label HADDE
+                            .col-sm-12.pr-0
+                                input.form-control#name(type="text" name="hadde" required="required")   
+
+                        .form-group.row
+                            label(for="vpsa").col-sm-12.col-form-label VPSA2_3
+                            .col-sm-12.pr-0
+                                input.form-control#password(type="text" name="vpsa" required="required")  
+                                
+                        .form-group.row
+                            .col-sm-5.offset-sm-1
+                                input(type="submit" value="Kaydet").btn.btn-primary 
+        .col-md-4
+            .card(id="gonderGelsin3")
+                .card-header
+                    h5
+                        center ABA2
+                .card-body
+                    form(action="/" method="POST")
+                        .form-group.row
+                            label(for="aba2").col-sm-12.col-form-label ABA2
+                            .col-sm-12.pr-0
+                                if aba2 == null
+                                    input.form-control#name(type="text" name="aba2" ) 
+                                else       
+                                    input.form-control#name(type="text" name="aba2" value=`${aba2.hadde}`) 
+                                
+                                
+                        .form-group.row
+                            .col-sm-5.offset-sm-1
+                                input(type="submit" value="Kaydet" ).btn.btn-primary  
+    //if celikhane == null    
+    .row
+        .col-md-12
+            h5.offset-sm-5.mt-5 Girilen ve Alınan Değerler
+            table.table.table-bordered
+                thead
+                    tr
+                        th Tarih
+                        th Kirli Bara
+                        th Temiz Bara
+                        th Haddehane
+                        th VPSA
+                        th ABA2
+                tbody
+                    tr  
+                        td #{tarih}
+                        if celikhane == null
+                            td ***         
+                            td ***
+                        else 
+                            td #{celikhane.kbara}
+                            td #{celikhane.tbara}
+                        if haddehane == null
+                            td ***         
+                            td ***
+                        else       
+                            td #{haddehane.hadde}
+                            td #{haddehane.vpsa}
+                        if aba2 == null
+                            td ***
+                        else       
+                            td #{aba2.hadde}
+    .row
+        .col-md-12
+            h5.offset-sm-5.mt-5 RAPOR
+            table.table.table-bordered
+                thead
+                    tr
+                        th Tarih
+                        th Kirli Bara
+                        th Temiz Bara
+                        th Haddehane
+                        th VPSA
+                        th ABA2
+                tbody
+                    tr  
+                        td #{tarih}
+                        if celikhane !== null && haddehane !== null
+                            - sonuc1 = celikhane.tbara-(haddehane.hadde - haddehane.vpsa)
+                            td #{celikhane.kbara}
+                            td #{sonuc1}
+                        else 
+                            td ***         
+                            td ***
+                        if haddehane !== null
+                            - sonuc2 = haddehane.hadde -  haddehane.vpsa     
+                            td #{sonuc2}
+                            td #{haddehane.vpsa}
+                        else
+                            td ***         
+                            td ***
+                        if aba2 !== null && aba2Dun !== null
+                            - sonuc3 = (aba2.hadde - aba2Dun.hadde) * 9450
+                            td #{sonuc3}
+                        else       
+                            td ***
+    .row
+        .col-md-12
+            table.table.table-bordered
+                .br
+                if celikhane !== null && haddehane !== null
+                    - sonuc1 = celikhane.tbara-(haddehane.hadde - haddehane.vpsa)
+                    - kbara = celikhane.kbara
+                    p #{dun} #{ayY} (08:00) - #{gun} #{ayT} (08:00) arası kirli bara (eaf+lf) tüketim #{celikhane.kbara} kwh
+                    p #{dun} #{ayY} (08:00) - #{gun} #{ayT} (08:00) arası çelikhane+oksijen temiz bara tüketim #{sonuc1} kwh
+                else
+                    - sonuc1 = "***"
+                    - kbara = "***"
+                    p #{dun} #{ayY} (08:00) - #{gun} #{ayT} (08:00) arası kirli bara (eaf+lf) tüketim *** kwh
+                    p #{dun} #{ayY} (08:00) - #{gun} #{ayT} (08:00) arası çelikhane+oksijen temiz bara tüketim *** kwh
+                
+                if haddehane !== null
+                    - sonuc2 = haddehane.hadde -  haddehane.vpsa
+                    p #{dun} #{ayY} (08:00) - #{gun} #{ayT} (08:00) arası haddehane tüketim #{sonuc2} kwh
+                else
+                    - sonuc2 = "***"
+                    p #{dun} #{ayY} (08:00) - #{gun} #{ayT} (08:00) arası haddehane tüketim *** kwh
+                
+                if aba2 !== null && aba2Dun !== null
+                    - sonuc3 = Math.round((aba2.hadde - aba2Dun.hadde) * 9450)
+                    p #{dun} #{ayY} (08:00) - #{gun} #{ayT} (08:00) arası ABA-2 tüketim #{sonuc3} kwh
+                else
+                    - sonuc3 = "***"
+                    p #{dun} #{ayY} (08:00) - #{gun} #{ayT} (08:00) arası ABA-2 tüketim 0 kwh
+                .br 
+
+                        
+    footer.main-footer
+        |     Powered By 
+        strong
+            a(href='https://www.linkedin.com/in/ömer-ziya-keskin-326439135/' target='_blank') &copy; &Ouml;mer Ziya KESK&Idot;N
