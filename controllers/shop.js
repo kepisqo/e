@@ -7,6 +7,13 @@ const Client = require('../models/client');
 const Endex = require('../models/endex');
 const sgMail = require('@sendgrid/mail');
 const Not = require('../models/note');
+const Subscribe = require('../models/subscribe')
+const webPush = require("web-push");
+const vapidKeys = {
+  publicKey: 'BJes0VBDf9U-Wu7HZU6Fxtf-W7fR8AOJoORIv-WRqqByx5B0hqPnpuHdiiqEeXm9pKFeMvOHnycU4ipFxdymevg',
+  privateKey: 'vQwwHC2Ye9xEEAnJKvTxFaintpq7LT-NoaudvHhYZvE'
+};
+webPush.setVapidDetails("mailto:kepisqo@gmail.com", vapidKeys.publicKey, vapidKeys.privateKey);
 
 sgMail.setApiKey('');
 
@@ -159,8 +166,8 @@ exports.getRapor = (req, res, next) => {
                         data.vpsa = haddehane.vpsa;
                     }
                     if(_aba2){
-                        data.aba2 = _aba2;
-                        data.aba2Dun = _aba2Dun;
+                        data.aba2 = _aba2.hadde;
+                        data.aba2Dun = _aba2Dun.hadde;
                     }
                     data.ayT = ayT;
                     data.ayY = ayY;
@@ -217,7 +224,15 @@ exports.postRapor = (req, res, next) => {
     console.log(hadde);
     console.log(vpsa);
     console.log(_aba2);
-    //console.log(_endex);
+    //console.log(_endex
+    sub = {
+        endpoint: null,
+        expirationTime: null,
+        keys: {
+          p256dh: null,
+          auth: null
+        }
+      }
 
     if(kbara){
         Celikhane.findOne(
@@ -232,6 +247,25 @@ exports.postRapor = (req, res, next) => {
                         tarih : today.toISOString().substring(0, 10)
                     })
                     .then(result => {
+                        Subscribe.findAll()
+                            .then(subscribe => {
+                                console.log(subscribe)
+                                subscribe.forEach((data) => {
+                                    sub = {
+                                        endpoint: data.endpoint,
+                                        expirationTime: data.expirationTime,
+                                        keys: {
+                                          p256dh: data.p256dh,
+                                          auth: data.auth
+                                        }
+                                    }
+                                    console.log("sub : "+sub)
+                                    webPush.sendNotification(sub, "Çelikhane Endex Bilgileri girildi.");
+                                });
+                            })
+                            .catch((err) => {
+                                console.log(err);
+                            });
                         res.status(200).send("data");
                     })
                     .catch(err => {
@@ -245,6 +279,25 @@ exports.postRapor = (req, res, next) => {
                             return celikhane.save();
                         })
                         .then(result => {
+                            Subscribe.findAll()
+                            .then(subscribe => {
+                                console.log(subscribe)
+                                subscribe.forEach((data) => {
+                                    sub = {
+                                        endpoint: data.endpoint,
+                                        expirationTime: data.expirationTime,
+                                        keys: {
+                                          p256dh: data.p256dh,
+                                          auth: data.auth
+                                        }
+                                    }
+                                    console.log("sub : "+sub)
+                                    webPush.sendNotification(sub, "Çelikhane Endex Bilgileri güncellendi.");
+                                });
+                            })
+                            .catch((err) => {
+                                console.log(err);
+                            });
                             console.log('updated');
                             res.status(200).send("data");
                         })
@@ -269,6 +322,25 @@ exports.postRapor = (req, res, next) => {
                         tarih : today.toISOString().substring(0, 10)
                     })
                     .then(result => {
+                        Subscribe.findAll()
+                            .then(subscribe => {
+                                console.log(subscribe)
+                                subscribe.forEach((data) => {
+                                    sub = {
+                                        endpoint: data.endpoint,
+                                        expirationTime: data.expirationTime,
+                                        keys: {
+                                          p256dh: data.p256dh,
+                                          auth: data.auth
+                                        }
+                                    }
+                                    console.log("sub : "+sub)
+                                    webPush.sendNotification(sub, "Haddehane Endex Bilgileri girildi.");
+                                });
+                            })
+                            .catch((err) => {
+                                console.log(err);
+                            });
                         res.status(200).send("data");
                     })
                     .catch(err => {
@@ -282,6 +354,25 @@ exports.postRapor = (req, res, next) => {
                             return haddehane.save();
                         })
                         .then(result => {
+                        Subscribe.findAll()
+                            .then(subscribe => {
+                                console.log(subscribe)
+                                subscribe.forEach((data) => {
+                                    sub = {
+                                        endpoint: data.endpoint,
+                                        expirationTime: data.expirationTime,
+                                        keys: {
+                                          p256dh: data.p256dh,
+                                          auth: data.auth
+                                        }
+                                    }
+                                    console.log("sub : "+sub)
+                                    webPush.sendNotification(sub, "Haddehane Endex Bilgileri güncellendi.");
+                                });
+                            })
+                            .catch((err) => {
+                                console.log(err);
+                            });
                             console.log('updated');
                             res.status(200).send("data");
                         })
@@ -303,7 +394,26 @@ exports.postRapor = (req, res, next) => {
                         tarih : today.toISOString().substring(0, 10)
                     })
                     .then(result => {
-
+                        Subscribe.findAll()
+                            .then(subscribe => {
+                                console.log(subscribe)
+                                subscribe.forEach((data) => {
+                                    sub = {
+                                        endpoint: data.endpoint,
+                                        expirationTime: data.expirationTime,
+                                        keys: {
+                                          p256dh: data.p256dh,
+                                          auth: data.auth
+                                        }
+                                    }
+                                    console.log("sub : "+sub)
+                                    webPush.sendNotification(sub, "Hadde2 Endex Bilgileri girildi.");
+                                });
+                            })
+                            .catch((err) => {
+                                console.log(err);
+                            });
+                        res.status(200).send("data");
                     })
                     .catch(err => {
                         console.log(err);
@@ -315,7 +425,27 @@ exports.postRapor = (req, res, next) => {
                             return aba2.save();
                         })
                         .then(result => {
+                        Subscribe.findAll()
+                            .then(subscribe => {
+                                console.log(subscribe)
+                                subscribe.forEach((data) => {
+                                    sub = {
+                                        endpoint: data.endpoint,
+                                        expirationTime: data.expirationTime,
+                                        keys: {
+                                          p256dh: data.p256dh,
+                                          auth: data.auth
+                                        }
+                                    }
+                                    console.log("sub : "+sub)
+                                    webPush.sendNotification(sub, "Hadde2 Endex Bilgileri güncellendi.");
+                                });
+                            })
+                            .catch((err) => {
+                                console.log(err);
+                            });
                             console.log('updated');
+                            res.status(200).send("data");
                         })
                         .catch(err => console.log(err));
                 }

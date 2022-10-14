@@ -137,7 +137,7 @@ const Note = require('./models/note');
 const { Client } = require('@sendgrid/client');
 
 var store = {
-	host: 'localhost',
+	host: '3.73.73.245',
 	port: 3306,
 	user: 'root',
 	password: '123*Ssk*06',
